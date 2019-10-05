@@ -4,7 +4,7 @@
 from typing import List
 
 class SingleNumber:
-    def hashTraversing(self, nums: List[int]) -> int:
+    def hash_traversing(self, nums: List[int]) -> int:
         hash_map = {}
         for i in nums:
             if i in hash_map:
@@ -30,7 +30,7 @@ def main():
 
     obj = SingleNumber()
     print("数组: %s, 结果: %d" % (numbers, result))
-    print("HashMap 输出结果: %d" % obj.hashTraversing(numbers))
+    print("HashMap 输出结果: %d" % obj.hash_traversing(numbers))
     print("异或运算(XOR) 输出结果: %d \n" % obj.xor(numbers))
 
 if __name__ == "__main__":

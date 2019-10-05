@@ -34,4 +34,4 @@
     + 空间复杂度O(1)
 
 ### 来源
-> [力扣（LeetCode）](https://leetcode-cn.com/problems/two-sum)
+> [力扣（LeetCode）](https://leetcode-cn.com/)

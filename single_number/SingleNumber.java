@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Arrays;
 
 class SingleNumber {
 
@@ -7,7 +8,7 @@ class SingleNumber {
         int[] numbers = new int[] { 4, 1, 2, 1, 2 };
         int result = 4;
 
-        System.out.printf("数组: %s, 结果: %d \n", numbers, result);
+        System.out.printf("数组: %s, 结果: %d \n", Arrays.toString(numbers), result);
         System.out.printf("HashMap 输出结果: %d \n", hashTraversing(numbers));
         System.out.printf("异或运算(XOR) 输出结果: %d \n", xor(numbers));
     }

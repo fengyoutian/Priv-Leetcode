@@ -16,4 +16,4 @@
     这里就不做搬运工了，请自行前往力扣查看并做题！
 
 ### 来源
-> [力扣（LeetCode）](https://leetcode-cn.com/problems/two-sum)
+> [力扣（LeetCode）](https://leetcode-cn.com/)
