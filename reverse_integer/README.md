@@ -27,9 +27,9 @@
     步骤:
         1. 正整数直接反转, 负数去掉负号后再反转, 反转之后先将个位数分离, 如: -1234 和 1234 => rev: 432, pop: 1
         2. 正整数未溢出 (rev = rev * 10 + pop):
-            x < INT_MAX / 10 || (rev = INT_MAX / 10 && pop <= INT_MAX % 10)
+            x < INT_MAX / 10 || (rev == INT_MAX / 10 && pop <= INT_MAX % 10)
         3. 负整数未溢出:
-            x < INT_MAX / 10 || (rev = INT_MAX / 10 && pop <= INT_MAX % 10 + 1)
+            x < INT_MAX / 10 || (rev == INT_MAX / 10 && pop <= INT_MAX % 10 + 1)
     ps: 这里用未溢出判断因为在字符串反转时把负号分离出来了, 结果均为正数, 懒得加符号回去再判断 (emmm, 步骤是写完代码回来补上的!!!)
     ```
 
