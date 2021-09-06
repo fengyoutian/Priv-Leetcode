@@ -2,24 +2,33 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 func main() {
-	fmt.Printf("Bubble Sort result: %v\n", bubbleSort([]int{5, 2, 3, 1}))
-	fmt.Printf("Insert Sort result: %v\n", insertSort([]int{6, 5, 2, 3, 1, 9}))
-	fmt.Printf("Selection Sort result: %v\n", selectionSort([]int{4, 8, 5, 7, 6, 2, 3, 1}))
-	fmt.Printf("Shell Sort result: %v\n", shellSort([]int{1, 3, 9, 6, 8, 9, 7, 4, 7, 5, 32, 2, 0}))
+	nums := []int{
+		0, 11, 3, 24, 21, 2, 10, 20, 18, 1,
+		26, 16, 4, 28, 6, 15, 5, 8, 19, 9,
+		12, 29, 27, 13, 14, 17, 7, 22, 23, 25,
+	}
 
-	nums := []int{1, 3, 9, 6, 8, 9, 7, 4, 7, 5, 32, 2, 0}
-	quickSort(nums, 0, len(nums)-1)
-	fmt.Printf("Quick Sort result: %v\n", nums)
-
-	nums = []int{1, 3, 9, 6, 8, 9, 7, 4, 7, 5, 32, 2, 0}
-	mergeSort(nums, 0, len(nums)-1)
-	fmt.Printf("Merge Sort result: %v\n", nums)
-	fmt.Printf("Merge Sort for un recursive result: %v\n", unRecursiveMergeSort([]int{1, 3, 9, 6, 8, 9, 7, 4, 7, 5, 32, 2, 0}))
-	fmt.Printf("Heap Sort result: %v\n", heapSort([]int{1, 3, 9, 6, 8, 9, 7, 4, 7, 5, 32, 2, 0}))
-	fmt.Printf("Heap Sort result: %v\n", heapSort([]int{5, 2, 3, 1}))
+	start := time.Now()
+	fmt.Printf("Bubble Sort result: %v, time: %s\n", bubbleSort(append([]int{}, nums...)), time.Since(start))
+	start = time.Now()
+	fmt.Printf("Insert Sort result: %v, time: %s\n", insertSort(append([]int{}, nums...)), time.Since(start))
+	start = time.Now()
+	fmt.Printf("Selection Sort result: %v, time: %s\n", selectionSort(append([]int{}, nums...)), time.Since(start))
+	start = time.Now()
+	fmt.Printf("Shell Sort result: %v, time: %s\n", shellSort(append([]int{}, nums...)), time.Since(start))
+	start = time.Now()
+	fmt.Printf("Quick Sort result: %v, time: %s\n", quickSort(append([]int{}, nums...)), time.Since(start))
+	start = time.Now()
+	fmt.Printf("Merge Sort result: %v, time: %s\n", mergeSort(append([]int{}, nums...)), time.Since(start))
+	start = time.Now()
+	fmt.Printf("Merge Sort 2 result: %v, time: %s\n", mergeSort2(append([]int{}, nums...)), time.Since(start))
+	start = time.Now()
+	fmt.Printf("Heap Sort result: %v, time: %s\n", heapSort(append([]int{}, nums...)), time.Since(start))
+	start = time.Now()
 }
 
 // 冒泡排序
@@ -89,12 +98,19 @@ func shellSort(nums []int) []int {
 }
 
 // 快速排序
-func quickSort(nums []int, low, high int) {
-	if low > high {
-		return
-	}
+func quickSort(nums []int) []int {
+	return quick(nums, 0, len(nums)-1)
+}
 
-	l, r, key := low, high, nums[low]
+func quick(nums []int, low, high int) []int {
+	if low >= high {
+		return nums
+	}
+	mid := (low + high) / 2
+	key := nums[mid]
+	nums[low], nums[mid] = nums[mid], nums[low]
+
+	l, r := low, high
 	for l < r {
 		// 右指针向左移动，找到大于key的坐标，并和左指针交换
 		for l < r && nums[r] >= key {
@@ -107,20 +123,26 @@ func quickSort(nums []int, low, high int) {
 		}
 		nums[r] = nums[l]
 	}
-	nums[l] = key              // 循环结束后 key 放回左指针才算交换完成
-	quickSort(nums, low, l-1)  // 继续排序左半部分
-	quickSort(nums, l+1, high) // 继续排序右半部分
+	nums[l] = key          // 循环结束后 key 放回左指针才算交换完成
+	quick(nums, low, l-1)  // 继续排序左半部分
+	quick(nums, l+1, high) // 继续排序右半部分
+	return nums
 }
 
 // 归并排序 (递归方式)
-func mergeSort(nums []int, low, high int) {
+func mergeSort(nums []int) []int {
+	return mergeSortFunc(nums, 0, len(nums)-1)
+}
+
+func mergeSortFunc(nums []int, low, high int) []int {
 	if low >= high {
-		return
+		return nums
 	}
-	middle := low + (high-low)/2    // 二分
-	mergeSort(nums, low, middle)    // 拆分左半边
-	mergeSort(nums, middle+1, high) // 拆分右半边
-	merge(nums, low, middle, high)  // 归并左右两边
+	middle := low + (high-low)/2        // 二分
+	mergeSortFunc(nums, low, middle)    // 拆分左半边
+	mergeSortFunc(nums, middle+1, high) // 拆分右半边
+	merge(nums, low, middle, high)      // 归并左右两边
+	return nums
 }
 
 func merge(nums []int, low, middle, high int) {
@@ -155,8 +177,8 @@ func merge(nums []int, low, middle, high int) {
 }
 
 // 归并排序（非递归实现）
-func unRecursiveMergeSort(nums []int) []int {
-	low, middle, high, length := 0, 0, 0, len(nums)
+func mergeSort2(nums []int) []int {
+	low, middle, high, length := 0, 0, 0, len(nums)-1
 	// 待归并数组长度：1 2 4 8 ...
 	split := 1 // 从最小分割单位 1 开始
 	for split <= length {
@@ -167,8 +189,8 @@ func unRecursiveMergeSort(nums []int) []int {
 			middle = i + split - 1
 			high = i + 2*split - 1
 			// 防止超过数组长度
-			if high > length-1 {
-				high = length - 1
+			if high > length {
+				high = length
 			}
 			// 归并两个有序的子数组
 			merge(nums, low, middle, high)
